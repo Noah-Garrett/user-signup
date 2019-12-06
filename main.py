@@ -15,6 +15,7 @@ def form():
     password_error=''
     password_match=''
     email_error=''
+    password_type_error=''
 
     if request.method=='GET':
         return render_template('main_form.html')
@@ -41,6 +42,10 @@ def form():
         if len(username) <=3 and len(username)>0 or len(username)>20 or ' ' in username:
             username_error='that username is is invalid'
             something_wrong=False
+
+        if len(password) <=3 and len(password)>0 or len(password)>20 or ' ' in password:
+            password_type_error='passwords cannot contain spaces or be less than 3'
+            something_wrong=False
         
         if password != confirm_password:
             password_match="passwords do not match"
@@ -56,7 +61,7 @@ def form():
         if something_wrong==True:
             return redirect('/success?user=' + username)
 
-        return render_template("main_form.html",username_error = username_error,password_error = password_error,password_match= password_match,email_error=email_error, email=email, username=username)
+        return render_template("main_form.html",username_error = username_error,password_error = password_error,password_match= password_match,email_error=email_error, email=email, username=username, password_type_error=password_type_error)
     
 @app.route('/success')
 def success():
